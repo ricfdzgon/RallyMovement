@@ -11,7 +11,11 @@ public class Wheel : MonoBehaviour
     void Start()
     {
         wCollider = GetComponentInChildren<WheelCollider>();
-   
+    }
+
+    void FixedUpdate()
+    {
+        UpdatePosition();
     }
 
     public void Accelerate(float torque)
@@ -22,5 +26,16 @@ public class Wheel : MonoBehaviour
     public void Brake(float torque)
     {
         wCollider.brakeTorque = torque;
+    }
+
+    public void UpdatePosition()
+    {
+        Vector3 position;
+        Quaternion rotation;
+
+        wCollider.GetWorldPose(out position, out rotation);
+
+        wheelMesh.position = position;
+        wheelMesh.rotation = rotation;
     }
 }

@@ -54,8 +54,8 @@ public class Coche : MonoBehaviour
             {
                 wheel.Brake(0);
             }
-            frontLeftWheel.Accelerate(moveDirection * motorTorque);
-            frontRightWheel.Accelerate(moveDirection * motorTorque);
+            RearLeftWheel.Accelerate(moveDirection * motorTorque);
+            ReartRightWheel.Accelerate(moveDirection * motorTorque);
         }
     }
 }
