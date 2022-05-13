@@ -6,7 +6,7 @@ public class Wheel : MonoBehaviour
 {
     public Transform wheelMesh;
     private WheelCollider wCollider;
-    private float steerAngle = 20;
+    private float steerAngulo = 20;
 
     void Start()
     {
@@ -37,5 +37,11 @@ public class Wheel : MonoBehaviour
 
         wheelMesh.position = position;
         wheelMesh.rotation = rotation;
+    }
+
+    public void Steer(float direction)
+    {
+        direction = Mathf.Clamp(direction, -1, 1);
+        wCollider.steerAngle = direction * steerAngulo;
     }
 }
