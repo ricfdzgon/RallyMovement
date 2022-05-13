@@ -11,6 +11,8 @@ public class Coche : MonoBehaviour
 
     private Wheel[] wheels;
 
+    public float motorTorque;
+    public float brakeTorque;
     private float moveDirection;
     private bool brake;
 
@@ -25,7 +27,7 @@ public class Coche : MonoBehaviour
 
     void Update()
     {
-        moveDirection = Input.GetAxis("Horizontal");
+        moveDirection = Input.GetAxis("Vertical");
 
         if (Input.GetKey(KeyCode.Space))
         {
@@ -34,6 +36,26 @@ public class Coche : MonoBehaviour
         else
         {
             brake = false;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (brake)
+        {
+            foreach (Wheel wheel in wheels)
+            {
+                wheel.Brake(brakeTorque);
+            }
+        }
+        else
+        {
+            foreach (Wheel wheel in wheels)
+            {
+                wheel.Brake(0);
+            }
+            frontLeftWheel.Accelerate(moveDirection * motorTorque);
+            frontRightWheel.Accelerate(moveDirection * motorTorque);
         }
     }
 }
