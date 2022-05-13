@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class Wheel : MonoBehaviour
 {
+    public Transform wheelMesh;
     private WheelCollider wCollider;
     private float steerAngle = 20;
 
     void Start()
     {
         wCollider = GetComponentInChildren<WheelCollider>();
+   
     }
 
     public void Accelerate(float torque)
