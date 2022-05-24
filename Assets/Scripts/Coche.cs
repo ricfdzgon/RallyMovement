@@ -16,6 +16,8 @@ public class Coche : MonoBehaviour
     private float moveDirection;
     private bool brake;
     private float steerDirection;
+    Vector3 posicion_inicial;
+    private bool modoAgarre;
 
     void Start()
     {
@@ -24,13 +26,14 @@ public class Coche : MonoBehaviour
         wheels[1] = frontRightWheel;
         wheels[2] = RearLeftWheel;
         wheels[3] = ReartRightWheel;
+        posicion_inicial = transform.position;
+        modoAgarre = false;
     }
 
     void Update()
     {
         moveDirection = Input.GetAxis("Vertical");
         steerDirection = Input.GetAxis("Horizontal");
-
         if (Input.GetKey(KeyCode.Space))
         {
             brake = true;
@@ -39,6 +42,17 @@ public class Coche : MonoBehaviour
         {
             brake = false;
         }
+
+        if (Input.GetKey(KeyCode.R))
+        {
+            transform.position = posicion_inicial;
+            GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+        }
+        if (Input.GetKey(KeyCode.T))
+        {
+            modoAgarre = !modoAgarre;
+        }
+        Debug.Log("MODO AGARRE " + modoAgarre);
     }
 
     void FixedUpdate()
@@ -47,9 +61,17 @@ public class Coche : MonoBehaviour
         frontRightWheel.Steer(steerDirection);
         if (brake)
         {
-            foreach (Wheel wheel in wheels)
+            if (modoAgarre)
             {
-                wheel.Brake(brakeTorque);
+                foreach (Wheel wheel in wheels)
+                {
+                    wheel.Brake(brakeTorque);
+                }
+            }
+            else
+            {
+                RearLeftWheel.Brake(brakeTorque);
+                ReartRightWheel.Brake(brakeTorque);
             }
         }
         else
@@ -58,8 +80,20 @@ public class Coche : MonoBehaviour
             {
                 wheel.Brake(0);
             }
-            RearLeftWheel.Accelerate(moveDirection * motorTorque);
-            ReartRightWheel.Accelerate(moveDirection * motorTorque);
+
+            if (modoAgarre)
+            {
+                foreach (Wheel wheel in wheels)
+                {
+                    wheel.Accelerate(moveDirection * motorTorque/2);
+                }
+            }
+            else
+            {
+                RearLeftWheel.Accelerate(moveDirection * motorTorque);
+                ReartRightWheel.Accelerate(moveDirection * motorTorque);
+            }
+
         }
     }
 }
