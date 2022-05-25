@@ -14,29 +14,25 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Vector3 eulerangles = transform.localEulerAngles;
         if (Input.GetKey(KeyCode.J))
         {
-            Vector3 eulerangles = transform.eulerAngles;
             eulerangles.y += rotationSpeed * Time.deltaTime;
-            transform.eulerAngles = eulerangles;
-        }
-        if (Input.GetKey(KeyCode.L))
+        } else if (Input.GetKey(KeyCode.L))
         {
-            Vector3 eulerangles = transform.eulerAngles;
             eulerangles.y -= rotationSpeed * Time.deltaTime;
-            transform.eulerAngles = eulerangles;
         }
+        transform.localEulerAngles = eulerangles;
+
+        eulerangles = camera.transform.localEulerAngles;
+
         if (Input.GetKey(KeyCode.I))
         {
-            Vector3 eulerangles = camera.eulerAngles;
             eulerangles.x -= rotationSpeed * Time.deltaTime;
-            camera.eulerAngles = eulerangles;
-        }
-        if (Input.GetKey(KeyCode.K))
+        } else if (Input.GetKey(KeyCode.K))
         {
-            Vector3 eulerangles = camera.eulerAngles;
             eulerangles.x += rotationSpeed * Time.deltaTime;
-            camera.eulerAngles = eulerangles;
         }
+        camera.transform.localEulerAngles = eulerangles
     }
 }
